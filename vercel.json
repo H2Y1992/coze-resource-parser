@@ -1,0 +1,13 @@
+{
+  "build": {
+    "env": {
+      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true"
+    }
+  },
+  "functions": {
+    "src/app.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    }
+  }
+}
