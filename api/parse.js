@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const { parseUrl } = require('./modules/urlParser');
-const { parseFile } = require('./modules/fileParser');
-const { standardizeContent, standardizeError } = require('./modules/contentStandard');
+const { parseUrl } = require('../src/modules/urlParser');
+const { parseFile } = require('../src/modules/fileParser');
+const { standardizeContent, standardizeError } = require('../src/modules/contentStandard');
 
 const app = express();
 const port = process.env.PORT || 3000;
