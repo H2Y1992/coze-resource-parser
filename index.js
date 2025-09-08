@@ -1,7 +1,7 @@
 // api/parse.js 正确代码模板（必须完全符合）
 const express = require('express');
 const cors = require('cors');
-// const { parseUrl } = require('../src/modules/urlParser'); // 路径必须正确（../src 对应根目录的 src）
+const { parseUrl } = require('./src/modules/urlParser'); // 路径必须正确（../src 对应根目录的 src）
 const { parseFile } = require('./src/modules/fileParser');
 const { standardizeContent, standardizeError } = require('./src/modules/contentStandard');
 
@@ -29,7 +29,7 @@ app.post('/parse-resource', async (req, res) => {
 
     let rawResult;
     if (resource_type === 'url' && resource_url) {
-      // rawResult = await parseUrl(resource_url);
+      rawResult = await parseUrl(resource_url);
     } else if (resource_type === 'file' && file_type && file_content) {
       rawResult = await parseFile(file_type, file_content);
     } else {
