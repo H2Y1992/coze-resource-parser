@@ -1,7 +1,7 @@
 // api/parse.js 正确代码模板（必须完全符合）
 const express = require('express');
 const cors = require('cors');
-const { parseUrl } = require('../src/modules/urlParser'); // 路径必须正确（../src 对应根目录的 src）
+// const { parseUrl } = require('../src/modules/urlParser'); // 路径必须正确（../src 对应根目录的 src）
 const { parseFile } = require('../src/modules/fileParser');
 const { standardizeContent, standardizeError } = require('../src/modules/contentStandard');
 
@@ -24,7 +24,7 @@ app.post('/parse-resource', async (req, res) => {
 
     let rawResult;
     if (resource_type === 'url' && resource_url) {
-      rawResult = await parseUrl(resource_url);
+      // rawResult = await parseUrl(resource_url);
     } else if (resource_type === 'file' && file_type && file_content) {
       rawResult = await parseFile(file_type, file_content);
     } else {
@@ -44,6 +44,16 @@ app.post('/parse-resource', async (req, res) => {
 app.get('/parse-resource', (req, res) => {
   res.json({ message: "接口可用，请使用 POST 方法调用" });
 });
+
+
+
+// 仅在本地直接运行该文件时启动服务器（不影响 Vercel 部署）
+if (require.main === module) {
+  const port = 3000;
+  app.listen(port, () => {
+    console.log(`本地服务器运行在 http://localhost:${port}`);
+  });
+}
 
 // 关键：导出 Express 实例（必须！不能有 app.listen()）
 module.exports = app;
