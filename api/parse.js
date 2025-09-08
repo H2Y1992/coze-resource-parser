@@ -40,5 +40,10 @@ app.post('/parse-resource', async (req, res) => {
   }
 });
 
+// 在 api/parse.js 中添加
+app.get('/parse-resource', (req, res) => {
+  res.json({ message: "接口可用，请使用 POST 方法调用" });
+});
+
 // 关键：导出 Express 实例（必须！不能有 app.listen()）
 module.exports = app;
