@@ -12,6 +12,11 @@ const app = express();
 app.use(cors()); // 允许跨域（Coze 调用需要）
 app.use(express.json({ limit: '10mb' })); // 解析 JSON 请求体
 
+
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
 // 核心接口（路由名可以自定义，但访问时要对应）
 app.post('/parse-resource', async (req, res) => {
   try {
