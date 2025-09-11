@@ -3,18 +3,22 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/parse.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "index.js"
+      "src": "/api/parse/(.*)",
+      "dest": "api/parse.js"
     },
     {
-      "src": "api/(.*)",
-      "dest": "parse.js"
+      "src": "/(.*)",
+      "dest": "index.js"
     }
   ]
 }
