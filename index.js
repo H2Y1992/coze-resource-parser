@@ -42,27 +42,36 @@ app.get('/', (req, res) => {
 // 核心接口：自动识别资源类型
 app.post('/parse-resource', async (req, res) => {
   try {
-    const { resource } = req.body; // 统一接收资源（URL或Base64文件内容）
+    const { url, file } = req.body;
 
-    if (!resource) {
-      return res.status(400).json(standardizeError('缺少参数：resource（请传入URL或Base64文件内容）'));
+    // 校验参数：必须传入其中一个
+    if (!url && !file) {
+      return res.status(400).json(standardizeError('请传入url或file参数（二选一）'));
+    }
+    if (url && file) {
+      return res.status(400).json(standardizeError('url和file参数不能同时传入'));
     }
 
     let rawResult;
-    // 1. 先判断是否为URL
-    if (isUrl(resource)) {
-      rawResult = await parseUrl(resource);
-    }
-    // 2. 否则尝试作为文件处理（Base64）
-    else {
-      const fileType = getFileTypeFromBase64(resource);
-      if (!fileType) {
-        return res.status(400).json(standardizeError('无法识别文件格式，请检查Base64内容是否正确'));
+    // 处理URL
+    if (url) {
+      if (!isUrl(url)) { // 复用现有URL校验逻辑
+        return res.status(400).json(standardizeError('传入的url格式不合法'));
       }
-      rawResult = await parseFile(fileType, resource);
+      rawResult = await parseUrl(url);
+    }
+    // 处理文件（注意：Coze的file参数通常会以Base64形式传递，需确认格式）
+    else {
+      // 假设Coze的file参数值为文件的Base64编码（需根据实际格式调整）
+      const base64Str = file;
+      const fileType = getFileTypeFromBase64(base64Str);
+      if (!fileType) {
+        return res.status(400).json(standardizeError('无法识别文件格式，请检查文件是否正确'));
+      }
+      rawResult = await parseFile(fileType, base64Str);
     }
 
-    const standardResult = standardizeContent(rawResult, isUrl(resource) ? 'url' : 'file');
+    const standardResult = standardizeContent(rawResult, url ? 'url' : 'file');
     res.status(200).json(standardResult);
 
   } catch (error) {
