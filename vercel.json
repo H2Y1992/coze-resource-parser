@@ -14,9 +14,7 @@
     },
     {
       "src": "api/(.*)",
-      "dest": "parse.js",
-      "maxDuration": 30,
-      "memory": 1024
+      "dest": "parse.js"
     }
   ]
 }
